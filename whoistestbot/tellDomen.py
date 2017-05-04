@@ -6,7 +6,7 @@ def domenTell(message):
     j = json.loads(str(w))
     return "Имя домена: " + str(j['domain_name']) + "\n\n" + "Ваш регистратор: " + str(j['registrar']) + "\n\n" + \
            "Дата создания домена: " + str(j['creation_date']) + "\n\n" + "Домен продлен до: " + str(j['expiration_date']) + \
-           "\n\n" + "Длегирован на серверах: " + "\n" + str(j['name_servers'])
+           "\n\n" + "Делегирован на серверах: " + "\n" + str(j['name_servers'])
 
 
 
