@@ -1,9 +1,9 @@
 import whois
+import socket
 
-w = whois.whois('timeweb.com')
-t = whois.whois('timeweb.ru')
+a = socket.gethostbyaddr('timeweb.ru')
 
-print(w)
-print("\n" + "_____________________________________________________")
-print(t)
+print(a)
+
+
 

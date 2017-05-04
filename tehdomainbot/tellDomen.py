@@ -1,10 +1,14 @@
 import whois
 import json
 
+
 def domenTell(message):
     w = whois.whois(message)
     j = json.loads(str(w))
-    return "Выполнить технический перенос доменного имени " + str(j['domain_name']) + \
+    if message == "ns1.timeweb.ru":
+        return 'Привет'
+    else:
+        return "Выполнить технический перенос доменного имени " + str(j['domain_name']) + \
            " к нам можно двумя способами: " + "\n\n" + \
            "1 способ. Указать на стороне держателя NS-серверов:" + "\n" +\
            str(j['name_servers']) + "\n" + \
