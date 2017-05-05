@@ -63,23 +63,25 @@ def handle_text(message):
         bot.send_message(message.chat.id, text.own_account3, parse_mode="HTML")
         directory = 'C:/Users/a.dubchak/Desktop/account2'
         all_files_in_this_directory = os.listdir(directory)
-        random_file = random.choice(all_files_in_this_directory, parse_mode="HTML")
-        img = open(directory + '/' + random_file, 'rb')
+        random_file = random.choice(all_files_in_this_directory)
+        img1 = open(directory + '/' + random_file, 'rb')
         bot.send_chat_action(message.from_user.id, "upload_photo")
-        bot.send_photo(message.from_user.id, img)
-        img.close()
+        bot.send_photo(message.from_user.id, img1)
+        img1.close()
         bot.send_message(message.chat.id, text.own_account4, parse_mode="HTML")
         directory = 'C:/Users/a.dubchak/Desktop/account3'
         all_files_in_this_directory = os.listdir(directory)
         random_file = random.choice(all_files_in_this_directory)
-        img = open(directory + '/' + random_file, 'rb')
+        img2 = open(directory + '/' + random_file, 'rb')
         bot.send_chat_action(message.from_user.id, "upload_photo")
-        bot.send_photo(message.from_user.id, img)
-        img.close()
+        bot.send_photo(message.from_user.id, img2)
+        img2.close()
         bot.send_message(message.chat.id, text.own_account5, parse_mode="HTML")
     elif message.text == "Восстановить пароль":
         bot.send_message(message.chat.id, text.were_password, parse_mode="HTML")
     else:
-        bot.send_message(message.chat.id, "К сожалению, я не понял Вашего сообщения. Для получения справки,"
-                                          "как мной управлять, нажмите /help", parse_mode="HTML")
+        bot.send_message(message.chat.id, "<b>К сожалению</b>, я не понял Вашего сообщения. Для получения справки,"
+                                          "как мной управлять, нажмите /help)", parse_mode="HTML")
+
+
 
