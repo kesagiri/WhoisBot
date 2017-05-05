@@ -31,7 +31,6 @@ def handle_help(message):
                                       "Введите доменное имя:")
 
 
-
 # Обработка сообщений и команд
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
@@ -45,7 +44,6 @@ def handle_text(message):
         img.close()
     else:
         bot.send_message(message.chat.id, tellDomen.domenTell(message.text))
-
 
 
 bot.polling(none_stop=True)

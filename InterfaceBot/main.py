@@ -3,6 +3,8 @@ import random
 import telebot
 import constants
 import tellDomen
+import text
+import message_text
 
 
 bot = telebot.TeleBot(constants.token)
@@ -12,11 +14,11 @@ bot = telebot.TeleBot(constants.token)
 @bot.message_handler(commands=['start'])
 def handle_text(message):
     user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-    user_markup.row('/help', 'Как оплатить?')
-    user_markup.row('Перенести домен', 'Изменить администратора')
-    user_markup.row('Владелец аккаунта', 'Восстановить аккаунт')
+    user_markup.row('Помощь', 'Как оплатить')
+    user_markup.row('Перенести домен', 'Владелец домена')
+    user_markup.row('Владелец аккаунта', 'Восстановить пароль')
     user_markup.row('покажи кошака')
-    bot.send_message(message.from_user.id, "Клавиатура включена. Для получения справки нажмите /help", reply_markup=user_markup)
+    bot.send_message(message.from_user.id, text.start, reply_markup=user_markup)
 
 
 # Выключить клавиатуру
@@ -29,24 +31,19 @@ def handle_stop(message):
 # Вывод команды /help
 @bot.message_handler(commands=['help'])
 def handle_help(message):
-    bot.send_message(message.chat.id, "Добро пожаловать! Я могу помочь Вам по вопросам оплаты, ")
+    bot.send_message(message.chat.id, text.start, parse_mode="HTML")
+
+
+# Вывод команды /different
+@bot.message_handler(commands=['difference'])
+def handle_help(message):
+    bot.send_message(message.chat.id, text.difference, parse_mode="HTML")
 
 
 # Обработка сообщений и команд
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    if message.text == "покажи кошака":
-        directory = 'C:/Users/a.dubchak/Desktop/Cats'
-        all_files_in_this_directory = os.listdir(directory)
-        random_file = random.choice(all_files_in_this_directory)
-        img = open(directory + '/' + random_file, 'rb')
-        bot.send_chat_action(message.from_user.id, "upload_photo")
-        bot.send_photo(message.from_user.id, img)
-        img.close()
-    elif message.text == "Как сделать трансфер":
-        bot.send_message(message.chat.id, tellDomen.domenTell(message.text))
-    else:
-        bot.send_message(message.chat.id, tellDomen.domenTell(message.text))
+    message_text.handle_text(message)
 
 
 bot.polling(none_stop=True)
