@@ -17,7 +17,7 @@ def handle_text(message):
     user_markup.row('Помощь', 'Как оплатить')
     user_markup.row('Перенести домен', 'Владелец домена')
     user_markup.row('Владелец аккаунта', 'Восстановить пароль')
-    user_markup.row('покажи кошака')
+    user_markup.row('Где кошаки?')
     bot.send_message(message.from_user.id, text.start, reply_markup=user_markup)
 
 
