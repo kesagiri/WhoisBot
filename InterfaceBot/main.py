@@ -12,7 +12,9 @@ bot = telebot.TeleBot(constants.token)
 @bot.message_handler(commands=['start'])
 def handle_text(message):
     user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-    user_markup.row('/start', '/help')
+    user_markup.row('/help', 'Как оплатить?')
+    user_markup.row('Перенести домен', 'Изменить администратора')
+    user_markup.row('Владелец аккаунта', 'Восстановить аккаунт')
     user_markup.row('покажи кошака')
     bot.send_message(message.from_user.id, "Клавиатура включена. Для получения справки нажмите /help", reply_markup=user_markup)
 
