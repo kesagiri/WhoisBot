@@ -13,12 +13,13 @@ bot = telebot.TeleBot(constants.token)
 # Клавиатура
 @bot.message_handler(commands=['start'])
 def handle_text(message):
-    user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-    user_markup.row('Помощь', 'Как оплатить')
-    user_markup.row('Перенести домен', 'Владелец домена')
-    user_markup.row('Владелец аккаунта', 'Восстановить пароль')
-    user_markup.row('покажи кошака')
-    bot.send_message(message.from_user.id, text.start, reply_markup=user_markup, parse_mode="HTML")
+    # user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+    # user_markup.row('Помощь', 'Как оплатить')
+    # user_markup.row('Перенести домен', 'Владелец домена')
+    # user_markup.row('Владелец аккаунта', 'Восстановить пароль')
+    # user_markup.row('покажи кошака')
+    # add 'reply_markup=user_markup' for turn on keyboards
+    bot.send_message(message.from_user.id, text.start, parse_mode="HTML")
 
 
 # Выключить клавиатуру
@@ -31,7 +32,7 @@ def handle_stop(message):
 # Вывод команды /help
 @bot.message_handler(commands=['help'])
 def handle_help(message):
-    bot.send_message(message.chat.id, text.start, parse_mode="HTML")
+    bot.send_message(message.chat.id, text.help, parse_mode="HTML")
 
 
 # Вывод команды по различию доменов /different
@@ -40,25 +41,27 @@ def handle_help(message):
     bot.send_message(message.chat.id, text.difference, parse_mode="HTML")
 
 
-# Вывод команды по различию доменов /different
+# Вывод команды по различию доменов /pay
 @bot.message_handler(commands=['pay'])
 def handle_help(message):
     bot.send_message(message.chat.id, text.pay, parse_mode="HTML")
 
 
-# Вывод команды по различию доменов /different
+# Вывод команды по различию доменов /change_admin
 @bot.message_handler(commands=['change_admin'])
 def handle_help(message):
     bot.send_message(message.chat.id, text.change_adm, parse_mode="HTML")
 
 
-# Вывод команды по различию доменов /different
+# Вывод команды по различию доменов /domain_transfer
 @bot.message_handler(commands=['domain_transfer'])
 def handle_help(message):
-    bot.send_message(message.chat.id, text.transfer, parse_mode="HTML")
+    user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+    user_markup.row('технический', 'административный')
+    bot.send_message(message.chat.id, text.transfer, reply_markup=user_markup, parse_mode="HTML")
 
 
-# Вывод команды по различию доменов /different
+# Вывод команды по различию доменов /account
 @bot.message_handler(commands=['account'])
 def handle_help(message):
     bot.send_message(message.chat.id, text.own_account1, parse_mode="HTML")

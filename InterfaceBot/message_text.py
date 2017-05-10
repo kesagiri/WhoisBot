@@ -31,7 +31,9 @@ def handle_text(message):
     elif message.text == "тех":
         bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
     elif message.text == "административный":
-        bot.send_message(message.chat.id, text.admin, parse_mode="HTML")
+        user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+        user_markup.row('ru', 'com', 'fm')
+        bot.send_message(message.chat.id, text.admin, reply_markup=user_markup, parse_mode="HTML")
     elif message.text == "Административный":
         bot.send_message(message.chat.id, text.admin, parse_mode="HTML")
     elif message.text == "адм":
