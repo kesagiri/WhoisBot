@@ -3,7 +3,6 @@ import constants
 import os
 import random
 import text
-import tellDomen
 
 
 
@@ -25,32 +24,12 @@ def handle_text(message):
         bot.send_message(message.chat.id, text.pay, parse_mode="HTML")
     elif message.text == "Перенести домен":
         bot.send_message(message.chat.id, text.transfer, parse_mode="HTML")
-    elif message.text == "технический":
-        bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
+    # elif message.text == "технический":
+    #     bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
     elif message.text == "Технический":
         bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
     elif message.text == "тех":
         bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
-    elif message.text == "административный":
-        user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-        user_markup.add(*[telebot.types.KeyboardButton(name) for name in ['ru', 'com', 'fm']])
-        bot.send_message(message.chat.id, text.admin, reply_markup=user_markup, parse_mode="HTML")
-    elif message.text == "Административный":
-        bot.send_message(message.chat.id, text.admin, parse_mode="HTML")
-    elif message.text == "адм":
-        bot.send_message(message.chat.id, text.admin, parse_mode="HTML")
-    elif message.text == "ru":
-        bot.send_message(message.chat.id, text.ru, parse_mode="HTML")
-    elif message.text == "Ru":
-        bot.send_message(message.chat.id, text.ru, parse_mode="HTML")
-    elif message.text == "Com":
-        bot.send_message(message.chat.id, text.com, parse_mode="HTML")
-    elif message.text == "com":
-        bot.send_message(message.chat.id, text.com, parse_mode="HTML")
-    elif message.text == "Fm":
-        bot.send_message(message.chat.id, text.webnames, parse_mode="HTML")
-    elif message.text == "fm":
-        bot.send_message(message.chat.id, text.webnames, parse_mode="HTML")
     elif message.text == "Владелец домена":
         bot.send_message(message.chat.id, text.change_adm, parse_mode="HTML")
     elif message.text == "Владелец аккаунта":

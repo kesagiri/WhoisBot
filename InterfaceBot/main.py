@@ -5,6 +5,7 @@ import constants
 import tellDomen
 import text
 import message_text
+import commands
 
 
 bot = telebot.TeleBot(constants.token)
@@ -25,8 +26,7 @@ def handle_text(message):
 # Выключить клавиатуру
 @bot.message_handler(commands=['stop'])
 def handle_stop(message):
-    hide_markup = telebot.types.ReplyKeyboardRemove()
-    bot.send_message(message.from_user.id, "Клавиатура отключена, для включения ввести /start", reply_markup=hide_markup)
+    commands.handle_stop(message)
 
 
 # Вывод команды /help
@@ -37,8 +37,9 @@ def handle_help(message):
 
 # Вывод команды по различию доменов /different
 @bot.message_handler(commands=['difference'])
-def handle_help(message):
-    bot.send_message(message.chat.id, text.difference, parse_mode="HTML")
+def handle_difference(message):
+    dif = bot.send_message(message.chat.id, text.difference, parse_mode="HTML")
+    bot.register_next_step_handler(dif, domain_zone)
 
 
 # Вывод команды по различию доменов /pay
@@ -55,10 +56,40 @@ def handle_help(message):
 
 # Вывод команды по различию доменов /domain_transfer
 @bot.message_handler(commands=['domain_transfer'])
-def handle_help(message):
-    user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-    user_markup.row('технический', 'административный')
-    bot.send_message(message.chat.id, text.transfer, reply_markup=user_markup, parse_mode="HTML")
+def handle_transfer(message):
+    user_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    user_markup.add(*[telebot.types.KeyboardButton(name) for name in ['административный', 'технический']])
+    msg = bot.send_message(message.chat.id, text.transfer, reply_markup=user_markup, parse_mode="HTML")
+    bot.register_next_step_handler(msg, name)
+
+
+# При выполнении команды domain_transfer, выполняется def name
+def name(message):
+    if message.text == "административный":
+        user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+        user_markup.add(*[telebot.types.KeyboardButton(zone) for zone in ['ru', 'com', 'fm']])
+        adm = bot.send_message(message.chat.id, text.admin, reply_markup=user_markup, parse_mode="HTML")
+        bot.register_next_step_handler(adm, domain_zone)
+    elif message.text == "технический":
+        bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
+
+
+def domain_zone(message):
+    if message.text == "ru":
+        bot.send_message(message.chat.id, text.ru, parse_mode="HTML")
+        hide_markup = telebot.types.ReplyKeyboardRemove()
+        bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
+                                               "нажмите /help", reply_markup=hide_markup)
+    elif message.text == "com":
+        bot.send_message(message.chat.id, text.com, parse_mode="HTML")
+        hide_markup = telebot.types.ReplyKeyboardRemove()
+        bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
+                                               "нажмите /help", reply_markup=hide_markup)
+    elif message.text == "fm":
+        bot.send_message(message.chat.id, text.webnames, parse_mode="HTML")
+        hide_markup = telebot.types.ReplyKeyboardRemove()
+        bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
+                                               "нажмите /help", reply_markup=hide_markup)
 
 
 # Вывод команды по различию доменов /account
