@@ -2,10 +2,12 @@ import os
 import random
 import telebot
 import constants
-import tellDomen
 import text
 import message_text
 import commands
+import whois
+import json
+import tell_domain
 
 
 bot = telebot.TeleBot(constants.token)
@@ -33,6 +35,17 @@ def handle_stop(message):
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     bot.send_message(message.chat.id, text.help, parse_mode="HTML")
+
+
+# Вывод команды /whois
+@bot.message_handler(commands=['whois'])
+def handle_help(message):
+    who = bot.send_message(message.chat.id, text.whois, parse_mode="HTML")
+    bot.register_next_step_handler(who, domain_tell)
+
+
+def domain_tell(message):
+    bot.send_message(message.chat.id, tell_domain.domain_tell(message.text), parse_mode="HTML")
 
 
 # Вывод команды по различию доменов /different

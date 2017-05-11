@@ -61,7 +61,7 @@ def handle_text(message):
         bot.send_message(message.chat.id, text.own_account5, parse_mode="HTML")
     elif message.text == "Восстановить пароль":
         bot.send_message(message.chat.id, text.were_password, parse_mode="HTML")
-    else:
-        bot.send_message(message.chat.id, "К сожалению, я не понял Вашего сообщения. Для получения справки,"
-                                          "как мной управлять, нажмите /help", parse_mode="HTML")
+    # else:
+    #     bot.send_message(message.chat.id, "К сожалению, я не понял Вашего сообщения. Для получения справки,"
+    #                                       "как мной управлять, нажмите /help", parse_mode="HTML")
 
