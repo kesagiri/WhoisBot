@@ -6,6 +6,7 @@ import text
 import tellDomen
 
 
+
 bot = telebot.TeleBot(constants.token)
 
 
@@ -32,7 +33,7 @@ def handle_text(message):
         bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
     elif message.text == "административный":
         user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-        user_markup.row('ru', 'com', 'fm')
+        user_markup.add(*[telebot.types.KeyboardButton(name) for name in ['ru', 'com', 'fm']])
         bot.send_message(message.chat.id, text.admin, reply_markup=user_markup, parse_mode="HTML")
     elif message.text == "Административный":
         bot.send_message(message.chat.id, text.admin, parse_mode="HTML")
