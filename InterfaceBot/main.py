@@ -51,8 +51,11 @@ def domain_tell(message):
 # Вывод команды по различию доменов /different
 @bot.message_handler(commands=['difference'])
 def handle_difference(message):
-    dif = bot.send_message(message.chat.id, text.difference, parse_mode="HTML")
-    bot.register_next_step_handler(dif, domain_zone)
+    # user_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    # user_markup.add(*[telebot.types.KeyboardButton(name) for name in ['административный', 'технический']])
+    # dif = bot.send_message(message.chat.id, text.difference, reply_markup=user_markup, parse_mode="HTML")
+    bot.send_message(message.chat.id, text.difference, parse_mode="HTML")
+    # bot.register_next_step_handler(dif, name)
 
 
 # Вывод команды по различию доменов /pay
@@ -71,19 +74,17 @@ def handle_help(message):
 @bot.message_handler(commands=['domain_transfer'])
 def handle_transfer(message):
     user_markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    user_markup.add(*[telebot.types.KeyboardButton(name) for name in ['административный', 'технический']])
+    user_markup.add(*[telebot.types.KeyboardButton(n) for n in ['административный', 'технический']])
     msg = bot.send_message(message.chat.id, text.transfer, reply_markup=user_markup, parse_mode="HTML")
-    bot.register_next_step_handler(msg, name)
+    bot.register_next_step_handler(msg, n)
 
 
-# При выполнении команды domain_transfer, выполняется def name
-def name(message):
+# При выполнении команды domain_transfer, выполняется name
+def n(message):
     if message.text == "административный":
-        user_markup = telebot.types.InlineKeyboardButton()
-        user_markup.add(*[telebot.types.InlineKeyboardButton(text=zone, callback_data=zone)
-                          for zone in ['ru', 'com', 'fm']])
-        adm = bot.send_message(message.chat.id, text.admin, reply_markup=user_markup, parse_mode="HTML")
-        # bot.register_next_step_handler(adm, domain_zone)
+        user_markup = telebot.types.InlineKeyboardMarkup()
+        user_markup.add(*[telebot.types.InlineKeyboardButton(text=zone, callback_data=zone) for zone in ['ru', 'com', 'fm']])
+        bot.send_message(message.from_user.id, "Нажмите на доменную зону", reply_markup=user_markup)
     elif message.text == "технический":
         bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
 
@@ -91,37 +92,36 @@ def name(message):
 @bot.callback_query_handler(func=lambda c: True)
 def inline(c):
     if c.data == 'ru':
-        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message.id, text=text.ru, parse_mode="HTML")
         hide_markup = telebot.types.ReplyKeyboardRemove()
-        bot.send_message(c.from_user.id, "Если у Вас остались дополнительные вопросы, "
-                                               "нажмите /help", reply_markup=hide_markup)
+        # bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.id, text=text.com, parse_mode="HTML")
+        # bot.send_message(c.from_user.id, text.ru, parse_mode="HTML")
+        bot.send_message(c.from_user.id, text.ru, reply_markup=hide_markup)
     elif c.data == 'com':
-        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message.id, text=text.com, parse_mode="HTML")
+        # bot.edit_message_text(chat_id=c.chat.id, message_id=c.message.id, text=text.com, parse_mode="HTML")
         hide_markup = telebot.types.ReplyKeyboardRemove()
-        bot.send_message(c.from_user.id, "Если у Вас остались дополнительные вопросы, "
-                                         "нажмите /help", reply_markup=hide_markup)
+        bot.send_message(c.from_user.id, text.com, reply_markup=hide_markup)
     elif c.data == 'fm':
-        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message.id, text=text.fm, parse_mode="HTML")
+        # bot.edit_message_text(chat_id=c.chat.id, message_id=c.message.id, text=text.fm, parse_mode="HTML")
         hide_markup = telebot.types.ReplyKeyboardRemove()
-        bot.send_message(c.from_user.id, "Если у Вас остались дополнительные вопросы, нажмите /help", reply_markup=hide_markup)
+        bot.send_message(c.from_user.id, text.webnames, reply_markup=hide_markup)
 
 
-def domain_zone(message):
-    if message.text == "ru":
-        bot.send_message(message.chat.id, text.ru, parse_mode="HTML")
-        hide_markup = telebot.types.ReplyKeyboardRemove()
-        bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
-                                               "нажмите /help", reply_markup=hide_markup)
-    elif message.text == "com":
-        bot.send_message(message.chat.id, text.com, parse_mode="HTML")
-        hide_markup = telebot.types.ReplyKeyboardRemove()
-        bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
-                                               "нажмите /help", reply_markup=hide_markup)
-    elif message.text == "fm":
-        bot.send_message(message.chat.id, text.webnames, parse_mode="HTML")
-        hide_markup = telebot.types.ReplyKeyboardRemove()
-        bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
-                                               "нажмите /help", reply_markup=hide_markup)
+# def domain_zone(message):
+#     if message.text == "ru":
+#         bot.send_message(message.chat.id, text.ru, parse_mode="HTML")
+#         hide_markup = telebot.types.ReplyKeyboardRemove()
+#         bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
+#                                                "нажмите /help", reply_markup=hide_markup)
+#     elif message.text == "com":
+#         bot.send_message(message.chat.id, text.com, parse_mode="HTML")
+#         hide_markup = telebot.types.ReplyKeyboardRemove()
+#         bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
+#                                                "нажмите /help", reply_markup=hide_markup)
+#     elif message.text == "fm":
+#         bot.send_message(message.chat.id, text.webnames, parse_mode="HTML")
+#         hide_markup = telebot.types.ReplyKeyboardRemove()
+#         bot.send_message(message.from_user.id, "Если у Вас остались дополнительные вопросы, "
+#                                                "нажмите /help", reply_markup=hide_markup)
 
 
 # Вывод команды по различию доменов /account
