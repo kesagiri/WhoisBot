@@ -79,12 +79,31 @@ def handle_transfer(message):
 # При выполнении команды domain_transfer, выполняется def name
 def name(message):
     if message.text == "административный":
-        user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-        user_markup.add(*[telebot.types.KeyboardButton(zone) for zone in ['ru', 'com', 'fm']])
+        user_markup = telebot.types.InlineKeyboardButton()
+        user_markup.add(*[telebot.types.InlineKeyboardButton(text=zone, callback_data=zone)
+                          for zone in ['ru', 'com', 'fm']])
         adm = bot.send_message(message.chat.id, text.admin, reply_markup=user_markup, parse_mode="HTML")
-        bot.register_next_step_handler(adm, domain_zone)
+        # bot.register_next_step_handler(adm, domain_zone)
     elif message.text == "технический":
         bot.send_message(message.chat.id, text.tehno, parse_mode="HTML")
+
+
+@bot.callback_query_handler(func=lambda c: True)
+def inline(c):
+    if c.data == 'ru':
+        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message.id, text=text.ru, parse_mode="HTML")
+        hide_markup = telebot.types.ReplyKeyboardRemove()
+        bot.send_message(c.from_user.id, "Если у Вас остались дополнительные вопросы, "
+                                               "нажмите /help", reply_markup=hide_markup)
+    elif c.data == 'com':
+        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message.id, text=text.com, parse_mode="HTML")
+        hide_markup = telebot.types.ReplyKeyboardRemove()
+        bot.send_message(c.from_user.id, "Если у Вас остались дополнительные вопросы, "
+                                         "нажмите /help", reply_markup=hide_markup)
+    elif c.data == 'fm':
+        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message.id, text=text.fm, parse_mode="HTML")
+        hide_markup = telebot.types.ReplyKeyboardRemove()
+        bot.send_message(c.from_user.id, "Если у Вас остались дополнительные вопросы, нажмите /help", reply_markup=hide_markup)
 
 
 def domain_zone(message):

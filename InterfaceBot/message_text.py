@@ -5,7 +5,6 @@ import random
 import text
 
 
-
 bot = telebot.TeleBot(constants.token)
 
 
